@@ -1,5 +1,15 @@
 {
-  "api": {
-    "Introduction": ["api/api-intro"]
+  "docs": {
+    "XINA": [
+      "xina-overview"
+    ],
+    "Utilities": [
+      "util-tunnel"
+    ],
+    "API": [
+      "api-overview",
+      "api-action-data",
+      "api-action-admin"
+    ]
   }
 }

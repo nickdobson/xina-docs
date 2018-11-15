@@ -17,7 +17,7 @@ const users = [
     image: '/img/docusaurus.svg',
     infoLink: 'https://www.facebook.com',
     pinned: true,
-  },
+  }
 ];
 
 const siteConfig = {
@@ -38,8 +38,8 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    // {doc: 'doc1', label: 'Docs'},
-    {doc: 'api/api-intro', label: 'API'}
+    {doc: 'xina-overview', label: 'Docs'},
+    // {doc: 'api/api-intro', label: 'API'}
     // {blog: true, label: 'Blog'},
   ],
 
@@ -84,6 +84,7 @@ const siteConfig = {
 
   // On page navigation for the current documentation page.
   onPageNav: 'separate',
+
   // No .html extensions for paths.
   cleanUrl: true,
 
