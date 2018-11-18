@@ -3,28 +3,62 @@ id: api-syntax-ex
 title: Expression Syntax 
 ---
 
+XINA expressions translate to MySQL expressions, which are evaluated as a query is executed.
+
 ## Literals
 
 Literal expressions represent a single, discrete value.
 
 ### Null
 
-The MySQL `NULL` value.
+The MySQL `NULL` value. May also be specified with the JSON `null` value.
 
- {
-  "type": "null"
- }
+| Property   | Value                               |
+|------------|-------------------------------------|
+| `type`     | `"null"`                             |
+
+_Example_
+
+```
+{ "type": "null" }
+```
 
 ### Number
 
-A numeric literal value.
+A numeric literal value. The value may be provided as a native JSON number, or encoded as a string.
+May also be provided directly as a JSON `number` value.
 
- {
-  "type": "number",
-  "value": <number or string>
- }
+| Property   | Value                               |
+|------------|-------------------------------------|
+| `type`     | `"number"`                          |
+| `value`    | `number` or `string`                |
 
-The value may be provided as a native JSON number, or encoded as a string.
+_Example (as object)_
+
+```
+{
+ "type"  : "number",
+ "value" : 123
+}
+```
+
+### String
+
+A string literal value. May also be provided directly as a JSON `string`.
+
+| Property   | Value                               |
+|------------|-------------------------------------|
+| `type`     | `"string"`                          |
+| `value`    | ``string`                           |
+
+_Example (as object)_
+
+```
+{
+ "type"  : "string",
+ "value" : "foo"
+}
+```
 
 ### Datetime
 
@@ -49,7 +83,6 @@ second-element    = ':' ss [fraction]
 fraction          = ('.' | ',') digit+
 offset            = 'Z' | (('+' | '-') HH [':' mm [':' ss [('.' | ',') SSS]]])
 ```
-
 
 If the offset is not provided the timezone will be assumed to be UTC.
 
@@ -78,9 +111,9 @@ Specifies a column of a system table.
   "parameter": <string>
  }
 
-=== Database Parameter Column ===
+=== Database Attribute Column ===
 
-Specifies a parameter column of a database table.
+Specifies an attribute column of a database table.
 
  {
   "type":      "column_database_parameter",
@@ -99,7 +132,7 @@ Specifies a field column of an entry table.
   "field":    <[[XINA API :: Specifier Syntax#Field|field specifier]]>
  }
 
-=== Alias ===
+### Alias
 
 Although the alias is not technically a column, it can refer directly by name to any column in the source, or to an alias of a result column.
 
@@ -136,6 +169,7 @@ Binary operation, evaluated as <code>e1</code> <code>op</code> <code>e2</code>.
 
 Valid binary operators are as follows:
 
+```text
  AND     (logical AND)
  OR      (logical OR)
  =       (equal)
@@ -156,6 +190,8 @@ Valid binary operators are as follows:
  |       (bit-wise OR)
  <<      (left shift)
  >>      (right shift)
+```
+
 
 ### Case
 
@@ -306,7 +342,7 @@ Available functions are:
 
 === In ===
 
-Returns true if <code>e</code> is in <code>values</code>.
+Returns true if an expression is within a set of values.
 
  {
   "type": "in",
