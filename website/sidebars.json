@@ -9,7 +9,11 @@
     "API": [
       "api-overview",
       "api-action-data",
-      "api-action-admin"
+      "api-action-admin",
+      "api-syntax-spec",
+      "api-syntax-data",
+      "api-syntax-ex",
+      "api-syntax-sel"
     ]
   }
 }

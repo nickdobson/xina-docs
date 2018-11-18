@@ -1,6 +1,6 @@
 ---
 id: api-action-admin
-title: Administrative Actions
+title: Admin Actions
 ---
 
 > Under Construction
