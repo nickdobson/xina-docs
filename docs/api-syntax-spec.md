@@ -39,9 +39,7 @@ Specifies an element by ID. The value may be provided directly as a JSON number.
 | `type`     | `"id"`                              |
 | `id`       | `number` or `string`                |
 
-#### Examples
-
-_As JSON object:_
+_Example (JSON object)_
 
 ```json
 {
@@ -50,7 +48,7 @@ _As JSON object:_
 }
 ```
 
-_As JSON number:_
+_Example (JSON number)_
 
 ```json
 123
@@ -69,7 +67,7 @@ Specifies an element by name. The value may be provided directly as a JSON strin
 
 #### Examples
 
-_As JSON object:_
+_Example (JSON object)_
 
 ```json
 {
@@ -78,7 +76,7 @@ _As JSON object:_
 }
 ```
 
-_As JSON string:_
+_Example (JSON string)_
 
 ```json
 "foo"
@@ -112,9 +110,7 @@ specifier types for the element may be used. Specifier types may also be intermi
 | `type`     | `"array"`                           |
 | `array`    | `array` of specifier(s)             |
 
-#### Examples
-
-_As JSON object:_
+_Example (JSON object)_
 
 ```json
 {
@@ -123,7 +119,7 @@ _As JSON object:_
 }
 ```
 
-_As JSON array:_
+_Example (JSON array)_
 
 ```json
 [ 123, "foo" ]

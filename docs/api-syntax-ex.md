@@ -188,44 +188,60 @@ Valid binary operators are as follows:
 | `/`      | (division)
 | `%`      | (modulus)
 | `&`      | (bit-wise AND)
-| `|`      | (bit-wise OR)
+| `⏐`      | (bit-wise OR)
 | `<<`     | (left shift)
 | `>>`     | (right shift)
 
-
+---
 
 ### Case
 
-Case logic expression. If the `base` is provided, returns the `then` expression of the first case in which `when` = `base`. Otherwise returns the first case in which `when` is `true`. If no case is satisfied returns `else` if it is provided, or `null` otherwise.
+Case logic expression. If the `base` is provided, returns the `then` expression of the first case in which
+`when` = `base`. Otherwise returns the first case in which `when` is `true`. If no case is satisfied returns `else` if
+it is provided, or `NULL` otherwise.
 
- {
-  "type": "case",
-  "base": <expression>, (optional)
-  "cases": [
-   {
-    "when": <expression>,
-    "then": <expression>
-   }, ...
-  ],
-  "else": <expression> (optional)
- }
+| Property   | Value                                     |
+|------------|-------------------------------------------|
+| `type`     | `"case"`                                  |
+| `base`     | [expression](api-syntax-ex.md) (optional) |
+| `cases`    | `array` of [case options](#case-option)   |
+| `else`     | [expression](api-syntax-ex.md) (optional) |
+
+#### Case Option
+
+| Property   | Value                                     |
+|------------|-------------------------------------------|
+| `when`     | [expression](api-syntax-ex.md)            |
+| `then`     | [expression](api-syntax-ex.md)            |
+
+---
 
 ### Count Rows
 
 Performs the MySQL `COUNT(*)` function.
 
- {
-  "type": "count_rows"
- }
+| Property   | Value                               |
+|------------|-------------------------------------|
+| `type`     | `"count_rows"`                      |
+
+_Example_
+
+```json
+{ "type": "count_rows" }
+```
+
+---
 
 ### Exists
 
-Returns true if the enclosed query returns at least one row.
+Returns true if the enclosed `SELECT` returns at least one row.
 
- {
-  "type": "exists",
-  "select": <select>
- }
+| Property   | Value                               |
+|------------|-------------------------------------|
+| `type`     | `"exists"`                          |
+| `select`   | [select](api-syntax-sel.md)         |
+
+---
 
 ### Function
 
@@ -245,21 +261,21 @@ Available functions are:
 | `AVG_DISTINCT`       | 1      | yes       | arithmetic average of distinct values of argument |
 | `BIT_AND`            | 1      | yes       | bit-wise AND |
 | `BIT_OR`             | 1      | yes       | bit-wise OR |
-| `BIT_XOR` | 1 | yes | bit-wise XOR |
-| `CEIL` | 1 | yes | returns the smallest integer value not less than the argument |
-| `COUNT` | 1 | yes | returns the number of rows in the which the argument is not `NULL` |
-| `COUNT_DISTINCT` | `n` | yes | returns the number of distinct value(s) of the arguments |
-| `FLOOR` | 1 | yes | returns the largest integer value not greater than the argument |
-| `MAX` | 1 | yes | returns the maximum value of the argument |
-| `MIN` | 1 | yes | returns the minimum value of the argument |
-| `POW` | 2 | no | |
-| `STDDEV_POP` | 1 | yes | returns the population standard deviation of the argument |
-| `STDDEV_SAMP` | 1 | yes | returns the sample standard deviation of the argument |
-| `SUM` | 1 | yes | returns the sum of the argument |
-| `SUM_DISTINCT` | 1 | yes | returns the sum of the distinct values of the argument |
-| `TRUNCATE` | 2 | no | |
-| `VAR_POP` | 1 | yes | returns the population variance of the argument |
-| `VAR_SAMP` | 1 | yes | returns the sample variance of the argument |
+| `BIT_XOR`            | 1      | yes       | bit-wise XOR |
+| `CEIL`               | 1      | yes       | returns the smallest integer value not less than the argument |
+| `COUNT`              | 1      | yes       | returns the number of rows in the which the argument is not `NULL` |
+| `COUNT_DISTINCT`     | `n`    | yes       | returns the number of distinct value(s) of the arguments |
+| `FLOOR`              | 1      | yes       | returns the largest integer value not greater than the argument |
+| `MAX`                | 1      | yes       | returns the maximum value of the argument |
+| `MIN`                | 1      | yes       | returns the minimum value of the argument |
+| `POW`                | 2      | no        | |
+| `STDDEV_POP`         | 1      | yes       | returns the population standard deviation of the argument |
+| `STDDEV_SAMP`        | 1      | yes       | returns the sample standard deviation of the argument |
+| `SUM`                | 1      | yes       | returns the sum of the argument |
+| `SUM_DISTINCT`       | 1      | yes       | returns the sum of the distinct values of the argument |
+| `TRUNCATE`           | 2      | no        | |
+| `VAR_POP`            | 1      | yes       | returns the population variance of the argument |
+| `VAR_SAMP`           | 1      | yes       | returns the sample variance of the argument |
 
 ### In
 
