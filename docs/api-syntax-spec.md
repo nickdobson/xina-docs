@@ -22,7 +22,7 @@ Specifies all elements in the current context.
 |------------|-------------------------------------|
 | `type`     | `"all"`                             |
 
-#### Example
+_Example_
 
 ```json
 { "type": "all" }

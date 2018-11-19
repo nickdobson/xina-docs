@@ -147,7 +147,7 @@ Evaluations are expressions evaluated by MySQL.
 
 ### Between
 
-Returns true if the expression <code>e</code> is between <code>min</code> and <code>max</code>. See [http://dev.mysql.com/doc/refman/5.5/en/comparison-operators.html#operator_between here] for more information.
+Returns true if the expression `e` is between `min` and `max`. See [http://dev.mysql.com/doc/refman/5.5/en/comparison-operators.html#operator_between here] for more information.
 
  {
    "type": "between",
@@ -158,7 +158,7 @@ Returns true if the expression <code>e</code> is between <code>min</code> and <c
 
 ### Binary
 
-Binary operation, evaluated as <code>e1</code> <code>op</code> <code>e2</code>.
+Binary operation, evaluated as `e1` `op` `e2`.
 
  {
    "type": "binary",
@@ -169,33 +169,34 @@ Binary operation, evaluated as <code>e1</code> <code>op</code> <code>e2</code>.
 
 Valid binary operators are as follows:
 
-```text
- AND     (logical AND)
- OR      (logical OR)
- =       (equal)
- !=      (not equal)
- >       (greater)
- >=      (greater or equal)
- <       (less)
- <=      (less or equal)
- IS      (test against NULL)
- LIKE    (simple pattern matching, see [http://dev.mysql.com/doc/refman/5.5/en/string-comparison-functions.html#operator_like here])
- REGEXP  (advanced pattern matching, see [http://dev.mysql.com/doc/refman/5.5/en/regexp.html#operator_regexp here])
- +       (addition)
- -       (subtraction)
- *       (multiplication)
- /       (division)
- %       (modulus)
- &       (bit-wise AND)
- |       (bit-wise OR)
- <<      (left shift)
- >>      (right shift)
-```
+| Operator | Description                                                                                                                     |
+|----------|---------------------------------------------------------------------------------------------------------------------------------|
+| `AND`    | logical AND
+| `OR`     | logical OR
+| `=`      | equal
+| `!=`     | not equal
+| `>`      | greater
+| `>=`     | greater or equal
+| `<`      | (less)
+| `<=`     | (less or equal)
+| `IS`     | (test against NULL)
+| `LIKE`   | (simple pattern matching, see [http://dev.mysql.com/doc/refman/5.5/en/string-comparison-functions.html#operator_like here])
+| `REGEXP` | (advanced pattern matching, see [http://dev.mysql.com/doc/refman/5.5/en/regexp.html#operator_regexp here])
+| `+`      | (addition)
+| `-`      | (subtraction)
+| `*`      | (multiplication)
+| `/`      | (division)
+| `%`      | (modulus)
+| `&`      | (bit-wise AND)
+| `|`      | (bit-wise OR)
+| `<<`     | (left shift)
+| `>>`     | (right shift)
+
 
 
 ### Case
 
-Case logic expression. If the <code>base</code> is provided, returns the <code>then</code> expression of the first case in which <code>when</code> = <code>base</code>. Otherwise returns the first case in which <code>when</code> is <code>true</code>. If no case is satisfied returns <code>else</code> if it is provided, or <code>null</code> otherwise.
+Case logic expression. If the `base` is provided, returns the `then` expression of the first case in which `when` = `base`. Otherwise returns the first case in which `when` is `true`. If no case is satisfied returns `else` if it is provided, or `null` otherwise.
 
  {
   "type": "case",
@@ -238,111 +239,31 @@ Performs a MySQL function. The number of arguments varies depending on the funct
 
 Available functions are:
 
-{| class="wikitable"
-!Name
-!Args
-!Aggregate
-!Description
-|-
-|<code>AVG</code>
-|1
-|yes
-|arithmetic average
-|-
-|<code>AVG_DISTINCT</code>
-|1
-|yes
-|arithmetic average of distinct values of argument
-|-
-|<code>BIT_AND</code>
-|1
-|yes
-|bit-wise AND
-|-
-|<code>BIT_OR</code>
-|1
-|yes
-|bit-wise OR
-|-
-|<code>BIT_XOR</code>
-|1
-|yes
-|bit-wise XOR
-|-
-|<code>CEIL</code>
-|1
-|yes
-|returns the smallest integer value not less than the argument
-|-
-|<code>COUNT</code>
-|1
-|yes
-|returns the number of rows in the which the argument is not <code>NULL</code>
-|-
-|<code>COUNT_DISTINCT</code>
-|n
-|yes
-|returns the number of distinct value(s) of the arguments
-|-
-|<code>FLOOR</code>
-|1
-|yes
-|returns the largest integer value not greater than the argument
-|-
-|<code>MAX</code>
-|1
-|yes
-|returns the maximum value of the argument
-|-
-|<code>MIN</code>
-|1
-|yes
-|returns the minimum value of the argument
-|-
-|<code>POW</code>
-|2
-|no
-|
-|-
-|<code>STDDEV_POP</code>
-|1
-|yes
-|returns the population standard deviation of the argument
-|-
-|<code>STDDEV_SAMP</code>
-|1
-|yes
-|returns the sample standard deviation of the argument
-|-
-|<code>SUM</code>
-|1
-|yes
-|returns the sum of the argument
-|-
-|<code>SUM_DISTINCT</code>
-|1
-|yes
-|returns the sum of the distinct values of the argument
-|-
-|<code>TRUNCATE</code>
-|2
-|no
-|
-|-
-|<code>VAR_POP</code>
-|1
-|yes
-|returns the population variance of the argument
-|-
-|<code>VAR_SAMP</code>
-|1
-|yes
-|returns the sample variance of the argument
-|}
+| Name                 | Args   | Aggregate | Description
+|----------------------|--------|-----------|---------------------------------------------------------------|
+| `AVG`                | 1      | yes       | arithmetic average
+| `AVG_DISTINCT`       | 1      | yes       | arithmetic average of distinct values of argument |
+| `BIT_AND`            | 1      | yes       | bit-wise AND |
+| `BIT_OR`             | 1      | yes       | bit-wise OR |
+| `BIT_XOR` | 1 | yes | bit-wise XOR |
+| `CEIL` | 1 | yes | returns the smallest integer value not less than the argument |
+| `COUNT` | 1 | yes | returns the number of rows in the which the argument is not `NULL` |
+| `COUNT_DISTINCT` | `n` | yes | returns the number of distinct value(s) of the arguments |
+| `FLOOR` | 1 | yes | returns the largest integer value not greater than the argument |
+| `MAX` | 1 | yes | returns the maximum value of the argument |
+| `MIN` | 1 | yes | returns the minimum value of the argument |
+| `POW` | 2 | no | |
+| `STDDEV_POP` | 1 | yes | returns the population standard deviation of the argument |
+| `STDDEV_SAMP` | 1 | yes | returns the sample standard deviation of the argument |
+| `SUM` | 1 | yes | returns the sum of the argument |
+| `SUM_DISTINCT` | 1 | yes | returns the sum of the distinct values of the argument |
+| `TRUNCATE` | 2 | no | |
+| `VAR_POP` | 1 | yes | returns the population variance of the argument |
+| `VAR_SAMP` | 1 | yes | returns the sample variance of the argument |
 
-=== In ===
+### In
 
-Returns true if an expression is within a set of values.
+Returns true if an expression is contained in a set of values.
 
  {
   "type": "in",
@@ -350,9 +271,9 @@ Returns true if an expression is within a set of values.
   "values": [ <expression>, ... ]
  }
 
-=== In Select ===
+### In Select
 
-Returns true if <code>e</code> is in the result of the <code>select</code> query.
+Returns true if `e` is in the result of the `select` query.
 
  {
   "type": "in_select",
@@ -360,7 +281,7 @@ Returns true if <code>e</code> is in the result of the <code>select</code> query
   "select": <[[XINA API :: Select Syntax#Select|select]]>
  }
 
-=== Select Expression ===
+### Select Expression
 
 Returns the value of the first column in the first row of the result set of the query.
 

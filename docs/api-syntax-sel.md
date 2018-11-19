@@ -26,100 +26,110 @@ The `SELECT` syntax is contained in a single JSON object.
 
 Specifies the column(s) to select.
 
-=== Columns Array ===
+### All
 
-Specifies the column(s) as an array of column objects.
+Specifies all columns from the source. This is the same as the MySQL `SELECT *` syntax. This is the default if
+no value for the `columns` property is set.
 
- {
-  "type": "array",
-  "array": [ <[[#Result Column|result column]]> ... ]
- }
+| Property   | Value                               |
+|------------|-------------------------------------|
+| `type`     | `"all"`                             |
 
- [ <[[#Result Column|result column]]> ... ]
+_Example_
 
-=== All Columns ===
+```json
+{ "type": "all" }
+```
 
-Specifies all columns in the source. This is the same as the SQL <code>SELECT *</code> query.
+### Array
 
- {
-  "type": "all"
- }
+Specifies column(s) as an array of [result column](#result-column) objects. May be provided directly
+as a JSON array.
+
+| Property   | Value                                         |
+|------------|-----------------------------------------------|
+| `type`     | `"array"`                                     |
+| `array`    | `array` of [result column](#result-column)(s) |
+
+_Example as JSON object:_
+
+```json
+{
+ "type"  : "array",
+ "array" : [ ... ]
+}
+```
+
+_Example as JSON array:_
+
+```json
+[ ... ]
+```
 
 ## Result Column
 
 Specifies an expression and optional alias.
 
- {
-  "e":     <[[XINA API :: Expression Syntax|expression]]>,
-  "alias": <string> (optional)
- }
+| Property   | Value                               |
+|------------|-------------------------------------|
+| `e`        | [expression](api-syntax-ex.md)      |
+| `alias`    | `string` (optional)                 |
 
 ## Source
 
-A source is a SQL table (or virtual table) from which a select statement selects.
+A source is a SQL table (or virtual table) from which a `SELECT` statement loads data.
 
 ### System Table Source
 
 A source from a system table.
 
- {
-  "type":  "table_system",
-  "table": <string>
- }
+| Property   | Value                               |
+|------------|-------------------------------------|
+| `type`     | `"table_system"` or `"ts"`          |
+| `table`    | `string` table name                 |
+
+---
 
 ### Database Table Source
 
 A source from a database table.
 
- {
-  "type":     "table_database",
-  "database": <[[XINA API :: Specifier Syntax#Database|database specifier]]>,
-  "table":    <string>
- }
+| Property   | Value                                             |
+|------------|---------------------------------------------------|
+| `type`     | `"table_database"` or `"td"`                      |
+| `database` | [database specifier](api-syntax-spec.md#database) |
+| `table`    | `string` table name                               |
 
-### Group Table Source
-
-A source from a group table.
-
- {
-  "type":     "table_group",
-  "database": <[[XINA API :: Specifier Syntax#Database|database specifier]]>,
-  "group":    <[[XINA API :: Specifier Syntax#Group|group specifier]]>
- }
+---
 
 ### Join Source
 
 A source derived from a SQL join of two sources.
 
- {
-  "type": "join",
-  "op":   <string>, (optional, default "join")
-  "s1":   <[[#Source|source]]>,
-  "s2":   <[[#Source|source]]>
- }
+| Property   | Value                                                       |
+|------------|-------------------------------------------------------------|
+| `type`     | `"join"`                                                    |
+| `op`       | `"join"`, `"left"`, `"left_outer"`, `"inner"`, or `"cross"` |
+| `s1`       | left join [source](#source)                                 |
+| `s2`       | right join [source](#source)                                |
 
-The options for the <code>op</code> are:
-
- "join"
- "left"
- "left_outer"
- "inner"
- "cross"
+---
 
 ### Select Source
 
 Source from the result of a select statement.
 
- {
-  "type":   "select",
-  "select": <[[XINA API :: Select Syntax|select]]>
- }
+| Property   | Value                                                       |
+|------------|-------------------------------------------------------------|
+| `type`     | `"select"`                                                  |
+| `select`   | [select](api-syntax-sel.md)                                 |
+
 
 ## Order Term
 
 Specifies an expression and optional order.
 
- {
-  "e":     <[[XINA API :: Expression Syntax|expression]]>,
-  "order": <"asc" or "desc"> (optional, default "asc")
- }
+| Property   | Value                                                       |
+|------------|-------------------------------------------------------------|
+| `e`        | [expression](api-syntax-ex.md)                              |
+| `order`    | `"asc"` or `"desc"` (optional, default `"asc"`              |

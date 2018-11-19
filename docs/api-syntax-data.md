@@ -7,13 +7,13 @@ title: Data Syntax
 
 Provides the data for one or more records.
 
-=== Records Array ===
+### Array
 
 Provides record data as an array of record objects.
 
  [ <[[#Record|record]]> ... ]
 
-=== Records DSV ===
+### DSV
 
 Provides record data as a delimiter separated values file. See the [[XINA API :: DSV Format|DSV format]] page for the
 syntax and more information.
