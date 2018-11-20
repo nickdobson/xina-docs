@@ -29,13 +29,6 @@ Provides data for a single record as a JSON object.
 | `tags`              |                                     |
 | `file`              |                                     |
 
- {
-  "<field>" : <[[#Fields|fields]]>,
-  "<blob>"  : <[[#Blobs|blobs]]>,    (optional)
-  "tags"    : [<tag> ...] (optional)
-  "file"    : <object ID> (optional)
- }
-
 
 ## DSV Format
 

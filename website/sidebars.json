@@ -13,7 +13,8 @@
       "api-syntax-spec",
       "api-syntax-data",
       "api-syntax-ex",
-      "api-syntax-sel"
+      "api-syntax-sel",
+      "api-syntax-def"
     ]
   }
 }
