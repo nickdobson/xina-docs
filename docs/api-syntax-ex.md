@@ -3,7 +3,18 @@ id: api-syntax-ex
 title: Expression Syntax 
 ---
 
+> Under Construction
+
 XINA expressions translate to MySQL expressions, which are evaluated as a query is executed.
+
+All expressions have a _standard form_ as a JSON object, with a `type` property specifying the expression type, and
+additional properties as needed by that expression type.
+
+Additionally, certain expression types may be represented using a _short form_, which is formatted as a JSON object with
+a single property prefixed with a code character. There are two types of short forms:
+
+* **functional**, identified by the `$` character, with either a JSON array of expressions or a single expression
+* **custom**, identified by the `@` character, taking something other than an expression
 
 ## Literals
 
@@ -15,7 +26,7 @@ The MySQL `NULL` value. May also be specified with the JSON `null` value.
 
 | Property   | Value                               |
 |------------|-------------------------------------|
-| `type`     | `"null"`                             |
+| `type`     | `"null"`                            |
 
 _Example_
 
@@ -99,9 +110,9 @@ The value must be encoded according to the same syntax as the datetime literal, 
 
 ## Columns
 
-'''Column''' expressions represent a column of a table.
+**Column** expressions specify a column of a table.
 
-=== System Parameter Column ===
+### System Parameter Column
 
 Specifies a column of a system table.
 
@@ -111,7 +122,7 @@ Specifies a column of a system table.
   "parameter": <string>
  }
 
-=== Database Attribute Column ===
+### Database Attribute Column
 
 Specifies an attribute column of a database table.
 
@@ -122,7 +133,7 @@ Specifies an attribute column of a database table.
   "parameter": <string>
  }
 
-=== Database Field Column ===
+### Database Field Column
 
 Specifies a field column of an entry table.
 
@@ -134,7 +145,8 @@ Specifies a field column of an entry table.
 
 ### Alias
 
-Although the alias is not technically a column, it can refer directly by name to any column in the source, or to an alias of a result column.
+Although the alias is not technically a column, it can refer directly by name to any column in the source, or to an
+alias of a result column.
 
  {
   "type": "alias",

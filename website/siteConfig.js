@@ -10,36 +10,37 @@
 
 // List of projects/orgs using your project for the users page.
 const users = [
-  {
+  /*{
     caption: 'User1',
     // You will need to prepend the image path with your baseUrl
     // if it is not '/', like: '/test-site/img/docusaurus.svg'.
-    image: '/img/docusaurus.svg',
+    image: '/img/xina.png',
     infoLink: 'https://www.facebook.com',
     pinned: true,
-  }
+  }*/
 ];
 
 const siteConfig = {
-  title: 'XINA Documentation', // Title for your website.
-  tagline: 'A website for testing',
-  url: 'https://xina.io', // Your website URL
-  baseUrl: '/docs/', // Base URL for your project */
-  // For github.io type URLs, you would set the url and baseUrl like:
-  //   url: 'https://facebook.github.io',
-  //   baseUrl: '/test-site/',
+  title   : 'XINA Documentation', // Title for your website.
+  tagline : null,
+  url     : 'https://xina.io', // Your website URL
+  baseUrl : '/docs/', // Base URL for your project
+                      // For github.io type URLs, you would set the url and baseUrl like:
+                      //   url: 'https://facebook.github.io',
+                      //   baseUrl: '/test-site/',
 
   // Used for publishing and more
-  projectName: 'test-site',
-  organizationName: 'facebook',
+  projectName      : 'xina-docs',
+  organizationName : 'Linear Labs LLC',
+
   // For top-level user or org sites, the organization is still the same.
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
   //   organizationName: 'JoelMarcey'
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'xina-overview', label: 'Docs'},
-    // {doc: 'api/api-intro', label: 'API'}
+      {doc: 'xina-overview', label: 'Docs'},
+      {doc: 'api-overview',  label: 'API'}
     // {blog: true, label: 'Blog'},
   ],
 
@@ -47,14 +48,14 @@ const siteConfig = {
   users,
 
   /* path to images for header/footer */
-  headerIcon: 'img/docusaurus.svg',
-  footerIcon: 'img/docusaurus.svg',
-  favicon: 'img/favicon.png',
+  headerIcon : 'img/xina.png',
+  footerIcon : 'img/xina.png',
+  favicon    : 'img/xina.png',
 
   /* Colors for website */
-  colors: {
-    primaryColor: '#2E8555',
-    secondaryColor: '#205C3B',
+  colors : {
+    primaryColor: '#505050',
+    secondaryColor: '#337ab7',
   },
 
   /* Custom fonts for website */
@@ -72,7 +73,7 @@ const siteConfig = {
   */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-  copyright: `Copyright © ${new Date().getFullYear()} Your Name or Your Company Name`,
+  copyright: `Copyright © ${new Date().getFullYear()} Linear Labs LLC`,
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.
