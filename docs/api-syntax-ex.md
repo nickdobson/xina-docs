@@ -34,6 +34,8 @@ _Example_
 { "type": "null" }
 ```
 
+---
+
 ### Number
 
 A numeric literal value. The value may be provided as a native JSON number, or encoded as a string.
@@ -53,6 +55,8 @@ _Example (as object)_
 }
 ```
 
+---
+
 ### String
 
 A string literal value. May also be provided directly as a JSON `string`.
@@ -60,7 +64,7 @@ A string literal value. May also be provided directly as a JSON `string`.
 | Property   | Value                               |
 |------------|-------------------------------------|
 | `type`     | `"string"`                          |
-| `value`    | ``string`                           |
+| `value`    | `string`                            |
 
 _Example (as object)_
 
@@ -71,16 +75,19 @@ _Example (as object)_
 }
 ```
 
+---
+
 ### Datetime
 
-A datetime literal value.
+A datetime literal value. Interpreted by the database as Unix time in milliseconds.
 
- {
-  "type": "datetime",
-  "value": <string>
- }
+| Property   | Value                               |
+|------------|-------------------------------------|
+| `type`     | `"datetime"` or `"dt"`              |
+| `value`    | `integer` or `string`               |
 
-The value must be encoded according to the following syntax, taken from the ISO8601 standard:
+If the value provided is an `integer` it must be the number of milliseconds since the Unix epoch. If the value is a
+`string` it must be encoded according to the following syntax, taken from the ISO8601 standard:
 
 ```text
 date-opt-time     = date-element ['T' [time-element] [offset]]
@@ -91,67 +98,161 @@ week-date-element = xxxx '-W' ww ['-' e]
 time-element      = HH [minute-element] | [fraction]
 minute-element    = ':' mm [second-element] | [fraction]
 second-element    = ':' ss [fraction]
-fraction          = ('.' | ',') digit+
+fraction          = ('.' | ',') digit [digit] [digit]
 offset            = 'Z' | (('+' | '-') HH [':' mm [':' ss [('.' | ',') SSS]]])
 ```
 
 If the offset is not provided the timezone will be assumed to be UTC.
 
+Supports shorthand syntax with the `$dt` property.
+
+| Property | Value                 |
+|----------|-----------------------|
+| `$dt`    | `integer` or `string` |
+
 ### Local Datetime
 
 A local datetime literal value.
 
- {
-  "type": "localdatetime",
-  "value": <string>
- }
+| Property | Value                        |
+|----------|------------------------------|
+| `type`   | `"localdatetime"` or `"ldt"` |
+| `value`  | `string`                     |
 
 The value must be encoded according to the same syntax as the datetime literal, except with the offset omitted.
 
+Supports shorthand syntax with the `$ldt` property.
+
+| Property | Value    |
+|----------|----------|
+| `$ldt`   | `string` |
+
+### Local Date
+
+A local date literal value.
+
+| Property | Value                   |
+|----------|-------------------------|
+| `type`   | `"localdate"` or `"ld"` |
+| `value`  | `string`                |
+
+The value must be encoded according to the same syntax as the `date-element` in the datetime literal.
+
+Supports shorthand syntax with the `$ld` property.
+
+| Property | Value    |
+|----------|----------|
+| `$ld`    | `string` |
+
+### Local Time
+
+A local time literal value.
+
+| Property | Value                   |
+|----------|-------------------------|
+| `type`   | `"localtime"` or `"lt"` |
+| `value`  | `string`                |
+
+The value must be encoded according to the same syntax as the `time-element` in the datetime literal.
+
+Supports shorthand syntax with the `$lt` property.
+
+| Property | Value    |
+|----------|----------|
+| `$lt`    | `string` |
+
 ## Columns
 
-**Column** expressions specify a column of a table.
+**Column** expressions specify a column of a table. Although each column type has a separate full syntax, there is a
+shorthand syntax with the `$col` property, which infers the column type based on the content.
+
+| Property | Value           |
+|----------|-----------------|
+| `$col`   | `string` column |
+
+```text
+column          = system-column | database-column
+system-column   = system-table-name '.' system-parameter-name
+database-column = database ['@' database-table-name] '.' (parameter-name | attribute-name | field | blob-attribute)
+database        = database-id | database-path
+field           = field-id | field-name
+blob-attribute  = (blob-id | blob-name) ':' blob-attribute-name
+```
+
+_Examples_
+
+* `user.email` : `email` parameter of the `user` system table
+* `a.b.record_id` : `record_id` attribute of the `record` table of database `b` in group `a`
+* `a.b@trash.record_id` : `record_id` attribute of the `trash` table of database `b` in group `a`
+* `a.b.c` : `c` field of the `record` table of database `b` in group `a`
+* `12.c` : `c` field of the `record` table of database with ID `12`
 
 ### System Parameter Column
 
 Specifies a column of a system table.
 
- {
-  "type":      "column_system",
-  "table":     <string>,
-  "parameter": <string>
- }
+| Property    | Value                       |
+|-------------|-----------------------------|
+| `type`      | `"column"`                  |
+| `table`     | `string`                    |
+| `column`    | `string`                    |
+
+---
+
+### Database Parameter Column
+
+Specifies a parameter column of a database table.
+
+| Property   | Value                                             |
+|------------|---------------------------------------------------|
+| `type`     | `"column"`                                        |
+| `database` | [database specifier](api-syntax-spec.md#database) |
+| `table`    | `string` table name                               |
+| `column`   | `string` parameter name                           |
+
+---
 
 ### Database Attribute Column
 
 Specifies an attribute column of a database table.
 
- {
-  "type":      "column_database_parameter",
-  "database":  <database specifier>,
-  "table":     <string>,
-  "parameter": <string>
- }
+| Property   | Value                                             |
+|------------|---------------------------------------------------|
+| `type`     | `"column"`                                        |
+| `database` | [database specifier](api-syntax-spec.md#database) |
+| `table`    | `string` table name                               |
+| `column`   | `string` attribute name                           |
+
+---
 
 ### Database Field Column
 
-Specifies a field column of an entry table.
+Specifies a field column of a database table.
 
- {
-  "type":     "column_database_field",
-  "database": <[[XINA API :: Specifier Syntax#Database|database specifier]]>
-  "field":    <[[XINA API :: Specifier Syntax#Field|field specifier]]>
- }
+| Property   | Value                                             |
+|------------|---------------------------------------------------|
+| `type`     | `"column"`                                        |
+| `database` | [database specifier](api-syntax-spec.md#database) |
+| `table`    | `string` table name                               |
+| `column`   | [field specifier](api-syntax-spec.md#field)       |
+
+---
 
 ### Alias
 
 Although the alias is not technically a column, it can refer directly by name to any column in the source, or to an
 alias of a result column.
 
- {
-  "type": "alias",
-  "alias": <string>
- }
+| Property | Value     |
+|----------|-----------|
+| `type`   | `"alias"` |
+| `value`  | `string`  |
+
+Supports shorthand syntax with the `$alias` property.
+
+| Property | Value    |
+|----------|----------|
+| `$alias` | `string` |
 
 ## Evaluations
 
@@ -159,50 +260,70 @@ Evaluations are expressions evaluated by MySQL.
 
 ### Between
 
-Returns true if the expression `e` is between `min` and `max`. See [http://dev.mysql.com/doc/refman/5.5/en/comparison-operators.html#operator_between here] for more information.
+Returns true if the expression `e` is between `min` and `max`.
 
- {
-   "type": "between",
-   "e": <expression>,
-   "min": <expression>,
-   "max": <expression>
- }
+| Property | Value                          |
+|----------|--------------------------------|
+| `type`   | `"between"`                    |
+| `e`      | [expression](api-syntax-ex.md) |
+| `min`    | [expression](api-syntax-ex.md) |
+| `max`    | [expression](api-syntax-ex.md) |
+
+Supports shorthand syntax with the `$between` property. Takes a JSON array of exactly 3 expressions, in the order
+`e`, `min`, and `max`.
+
+| Property   | Value                                          |
+|------------|------------------------------------------------|
+| `$between` | array of three [expressions](api-syntax-ex.md) |
+
+---
 
 ### Binary
 
 Binary operation, evaluated as `e1` `op` `e2`.
 
- {
-   "type": "binary",
-   "op": <string>,
-   "e1": <expression>,
-   "e2": <expression>
- }
+| Property | Value                          |
+|----------|--------------------------------|
+| `type`   | `"binary"`                     |
+| `op`     | `string`                       |
+| `e1`     | [expression](api-syntax-ex.md) |
+| `e2`     | [expression](api-syntax-ex.md) |
 
 Valid binary operators are as follows:
 
 | Operator | Description                                                                                                                     |
 |----------|---------------------------------------------------------------------------------------------------------------------------------|
-| `AND`    | logical AND
-| `OR`     | logical OR
+| `and`    | logical AND
+| `or`     | logical OR
 | `=`      | equal
 | `!=`     | not equal
 | `>`      | greater
 | `>=`     | greater or equal
-| `<`      | (less)
-| `<=`     | (less or equal)
-| `IS`     | (test against NULL)
-| `LIKE`   | (simple pattern matching, see [http://dev.mysql.com/doc/refman/5.5/en/string-comparison-functions.html#operator_like here])
-| `REGEXP` | (advanced pattern matching, see [http://dev.mysql.com/doc/refman/5.5/en/regexp.html#operator_regexp here])
-| `+`      | (addition)
-| `-`      | (subtraction)
-| `*`      | (multiplication)
-| `/`      | (division)
-| `%`      | (modulus)
-| `&`      | (bit-wise AND)
-| `⏐`      | (bit-wise OR)
-| `<<`     | (left shift)
-| `>>`     | (right shift)
+| `<`      | less
+| `<=`     | less or equal
+| `is`     | test against `NULL`
+| `like`   | simple pattern matching, see [http://dev.mysql.com/doc/refman/5.5/en/string-comparison-functions.html#operator_like here]
+| `regexp` | advanced pattern matching, see [http://dev.mysql.com/doc/refman/5.5/en/regexp.html#operator_regexp here]
+| `+`      | addition
+| `-`      | subtraction
+| `*`      | multiplication
+| `/`      | division
+| `%`      | modulus
+| `&`      | bit-wise AND
+| `⏐`      | bit-wise OR
+| `<<`     | left shift
+| `>>`     | right shift
+
+Supports shorthand syntax with any operator by prefixing it with `$`. Takes a JSON array of two or more expressions. If
+more than two expressions are provided, behavior depends on the operator type. Logic and math operators perform each
+binary operation in order of expressions. For example:
+
+* `{"$and": [true, true, false]}` = `(true and true) and false` = `false`
+* `{"$/": [12, 3, 2, 2]}` = `((12 / 3) / 2) / 2` = `1`
+
+Comparison operators perform a logical AND of the comparisons of the first expression to each additional expression.
+
+* `{"$=": [0, 1, 2]}` = `(0 = 1) and (0 = 2)` = `false`
 
 ---
 
@@ -228,13 +349,25 @@ it is provided, or `NULL` otherwise.
 
 ---
 
+### Collate
+
+Performs the MySQL `COLLATE` function.
+
+| Property    | Value                          |
+|-------------|--------------------------------|
+| `type`      | `"collate"`                    |
+| `e`         | [expression](api-syntax-ex.md) |
+| `collation` | `string`                       |
+
+---
+
 ### Count Rows
 
 Performs the MySQL `COUNT(*)` function.
 
-| Property   | Value                               |
-|------------|-------------------------------------|
-| `type`     | `"count_rows"`                      |
+| Property | Value          |
+|----------|----------------|
+| `type`   | `"count_rows"` |
 
 _Example_
 
@@ -252,6 +385,12 @@ Returns true if the enclosed `SELECT` returns at least one row.
 |------------|-------------------------------------|
 | `type`     | `"exists"`                          |
 | `select`   | [select](api-syntax-sel.md)         |
+
+Supports shorthand syntax with the `$exists` property.
+
+| Property  | Value                       |
+|-----------|-----------------------------|
+| `$exists` | [select](api-syntax-sel.md) |
 
 ---
 
@@ -291,29 +430,69 @@ Available functions are:
 
 ### In
 
-Returns true if an expression is contained in a set of values.
+Returns true if an expression is contained in a set of values. If an empty array is provided for `values`, will always
+return false.
+ 
+| Property | Value                                    |
+|----------|------------------------------------------|
+| `type`   | `"in"`                                   |
+| `e`      | [expression](api-syntax-ex.md)           |
+| `values` | array of [expressions](api-syntax-ex.md) |
 
- {
-  "type": "in",
-  "e": <expression>,
-  "values": [ <expression>, ... ]
- }
+Supports shorthand syntax with the `$in` property. Takes an array of a single expression (`e`), followed by either an
+array of expression(s) (`values`) or a `SELECT` object.
+
+| Property | Value                       |
+|----------|-----------------------------|
+| `$in`    | array of one [expression](api-syntax-ex.md), then either an array of expressions or a [select](api-syntax-sel.md) |
 
 ### In Select
 
 Returns true if `e` is in the result of the `select` query.
 
- {
-  "type": "in_select",
-  "e": <expression>,
-  "select": <[[XINA API :: Select Syntax#Select|select]]>
- }
+| Property | Value                          |
+|----------|--------------------------------|
+| `type`   | `"in_select"`                         |
+| `e`      | [expression](api-syntax-ex.md) |
+| `select` | [select](api-syntax-sel.md)    |
+
+Supports shorthand syntax with the `$in` property (see [above](#in)).
 
 ### Select Expression
 
 Returns the value of the first column in the first row of the result set of the query.
 
- {
-  "type": "select",
-  "select": <[[XINA API :: Select Syntax#Select|select]]>
- }
+| Property   | Value                               |
+|------------|-------------------------------------|
+| `type`     | `"select"`                          |
+| `select`   | [select](api-syntax-sel.md)         |
+
+Supports shorthand syntax with the `$select` property.
+
+| Property  | Value                       |
+|-----------|-----------------------------|
+| `$select` | [select](api-syntax-sel.md) |
+
+### Unary Expression
+
+Unary operator expression, evaluated as `op` `e`.
+
+| Property | Value                          |
+|----------|--------------------------------|
+| `type`   | `"unary"`                      |
+| `op`     | `string`                       |
+| `e`      | [expression](api-syntax-ex.md) |
+
+Valid unary operators are:
+
+| Operator | Description    |
+|----------|----------------|
+| `not`    | logical NOT    |
+| `-`      | negate         |
+| `~`      | bit invert     |
+
+Supports shorthand syntax with any operator by prefixing it with `$`. Takes a single expression as a value.
+
+| Property | Value                          |
+|----------|--------------------------------|
+| `$` `op` | [expression](api-syntax-ex.md) |

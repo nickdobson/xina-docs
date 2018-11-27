@@ -1,7 +1,8 @@
 {
   "docs": {
     "XINA": [
-      "xina-overview"
+      "xina-overview",
+      "xina-types"
     ],
     "Utilities": [
       "util-tunnel"
