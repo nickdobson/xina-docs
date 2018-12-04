@@ -11,10 +11,7 @@ All expressions have a _standard form_ as a JSON object, with a `type` property 
 additional properties as needed by that expression type.
 
 Additionally, certain expression types may be represented using a _short form_, which is formatted as a JSON object with
-a single property prefixed with a code character. There are two types of short forms:
-
-* **functional**, identified by the `$` character, with either a JSON array of expressions or a single expression
-* **custom**, identified by the `@` character, taking something other than an expression
+a single property prefixed with the `$` character.
 
 ## Literals
 
@@ -173,10 +170,8 @@ shorthand syntax with the `$col` property, which infers the column type based on
 ```text
 column          = system-column | database-column
 system-column   = system-table-name '.' system-parameter-name
-database-column = database ['@' database-table-name] '.' (parameter-name | attribute-name | field | blob-attribute)
-database        = database-id | database-path
-field           = field-id | field-name
-blob-attribute  = (blob-id | blob-name) ':' blob-attribute-name
+database-column = database-path ['@' database-table-name] '.' (parameter-name | attribute-name | field-name | blob-attribute)
+blob-attribute  = blob-name ':' blob-attribute-name
 ```
 
 _Examples_
@@ -185,7 +180,6 @@ _Examples_
 * `a.b.record_id` : `record_id` attribute of the `record` table of database `b` in group `a`
 * `a.b@trash.record_id` : `record_id` attribute of the `trash` table of database `b` in group `a`
 * `a.b.c` : `c` field of the `record` table of database `b` in group `a`
-* `12.c` : `c` field of the `record` table of database with ID `12`
 
 ### System Parameter Column
 
@@ -291,8 +285,8 @@ Binary operation, evaluated as `e1` `op` `e2`.
 
 Valid binary operators are as follows:
 
-| Operator | Description                                                                                                                     |
-|----------|---------------------------------------------------------------------------------------------------------------------------------|
+| Operator | Description                                                                                               |
+|----------|-----------------------------------------------------------------------------------------------------------|
 | `and`    | logical AND
 | `or`     | logical OR
 | `=`      | equal
@@ -302,8 +296,8 @@ Valid binary operators are as follows:
 | `<`      | less
 | `<=`     | less or equal
 | `is`     | test against `NULL`
-| `like`   | simple pattern matching, see [http://dev.mysql.com/doc/refman/5.5/en/string-comparison-functions.html#operator_like here]
-| `regexp` | advanced pattern matching, see [http://dev.mysql.com/doc/refman/5.5/en/regexp.html#operator_regexp here]
+| `like`   | simple pattern matching, see [here](https://dev.mysql.com/doc/refman/8.0/en/string-comparison-functions.html#operator_like)
+| `regexp` | advanced pattern matching, see [here](https://dev.mysql.com/doc/refman/8.0/en/regexp.html)
 | `+`      | addition
 | `-`      | subtraction
 | `*`      | multiplication
@@ -396,13 +390,13 @@ Supports shorthand syntax with the `$exists` property.
 
 ### Function
 
-Performs a MySQL function. The number of arguments varies depending on the function,
+Performs a MySQL function. The number of arguments varies depending on the function.
 
- {
-  "type": "function",
-  "function": <string>,
-  "args": [ <expression>, ... ]
- }
+| Property   | Value                                    |
+|------------|------------------------------------------|
+| `type`     | `"function"`                             |
+| `function` | `string`                                 |
+| `args`     | array of [expressions](api-syntax-ex.md) |
 
 Available functions are:
 
@@ -427,6 +421,11 @@ Available functions are:
 | `TRUNCATE`           | 2      | no        | |
 | `VAR_POP`            | 1      | yes       | returns the population variance of the argument |
 | `VAR_SAMP`           | 1      | yes       | returns the sample variance of the argument |
+
+
+Supports shorthand syntax by prefixing any function name with `$$`. For example, `{ "$$pow": [2, 3] }` evaluates to `8`.
+
+---
 
 ### In
 

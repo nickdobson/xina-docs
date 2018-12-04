@@ -79,7 +79,28 @@ Specifies an expression and optional alias.
 
 A source is a SQL table (or virtual table) from which a `SELECT` statement loads data.
 
+### Table Source
+
+A source from any table.
+
+| Property   | Value                               |
+|------------|-------------------------------------|
+| `type`     | `"table"`                           |
+| `table`    | `string` table                      |
+| `alias`    | `string` (optional)                 |
+
+The table syntax is the same as the table portion of the [column expression syntax](api-syntax-ex.md#columns)
+
+```text
+table           = system-table-name | database-table
+database-table  = database-path ['@' database-table-name]
+```
+
+May also be provided directly as a JSON string (without the `alias` property).
+
 ### System Table Source
+
+> Deprecated
 
 A source from a system table.
 
@@ -87,6 +108,7 @@ A source from a system table.
 |------------|-------------------------------------|
 | `type`     | `"table_system"` or `"ts"`          |
 | `table`    | `string` table name                 |
+| `alias`    | `string` (optional)                 |
 
 ---
 
@@ -99,6 +121,7 @@ A source from a database table.
 | `type`     | `"table_database"` or `"td"`                      |
 | `database` | [database specifier](api-syntax-spec.md#database) |
 | `table`    | `string` table name                               |
+| `alias`    | `string` (optional)                               |
 
 ---
 
