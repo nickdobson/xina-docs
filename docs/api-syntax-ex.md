@@ -21,9 +21,9 @@ Literal expressions represent a single, discrete value.
 
 The MySQL `NULL` value. May also be specified with the JSON `null` value.
 
-| Property   | Value                               |
-|------------|-------------------------------------|
-| `type`     | `"null"`                            |
+| Property | Value    |
+|----------|----------|
+| `type`   | `"null"` |
 
 _Example_
 
