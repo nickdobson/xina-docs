@@ -208,8 +208,8 @@ environment), the payload for the `xina-queue` function, and the invocation para
     }
     
     // the payload for the xina-queue function
-    // note we need to provide the bucket and queue for this to work
     let payload = {
+	    parent_id : task_id, // provide task ID as parent ID to start event chain
         task_id,
         bucket,
         queue,
